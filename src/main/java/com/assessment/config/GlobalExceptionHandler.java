@@ -3,7 +3,6 @@ package com.assessment.config;
 import com.assessment.common.ErrorCode;
 import com.assessment.common.PreconditionException;
 import com.assessment.common.Response;
-import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
