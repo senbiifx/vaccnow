@@ -1,4 +1,4 @@
-# Pre-requites
+# Pre-requisites
   - Maven
   - Docker
 
