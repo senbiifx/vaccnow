@@ -31,10 +31,17 @@ public class VaccinationService {
     private final JavaMailSender mailSender;
     private final AppProperties appProperties;
 
+
+    /**
+     *  Get list of branches
+     */
     public List<Branch> getBranches(){
         return branchRepository.findAll();
     }
 
+    /**
+     *  Get list of vaccines given the branch code
+     */
     public List<Vaccine> getVaccinesByBranchCode(String branchCode){
         Branch branch =
                 branchRepository
@@ -43,6 +50,9 @@ public class VaccinationService {
         return branch.getVaccines();
     }
 
+    /**
+     *  Get list of available time slots given a branch and a date. Occupied time slots are excluded.
+     */
     public List<TimeSlot> getAvailableTimeSlots(String branchCode, LocalDate date){
         List<TimeSlot> timeSlots = timeSlotRepository.findAll();
         List<VaccinationSchedule> schedules =
@@ -60,6 +70,9 @@ public class VaccinationService {
         return paymentMethodRepository.findAll();
     }
 
+    /**
+     *  Search for schedules
+     */
     public List<VaccinationSchedule> getSchedules(LocalDate fromDate,
                                                   LocalDate toDate,
                                                   String branchCode,
@@ -68,6 +81,9 @@ public class VaccinationService {
         return vaccinationScheduleRepository.findSchedule(fromDate, toDate, branchCode, applied, confirmed);
     }
 
+    /**
+     *  Schedule for a vaccination.
+     */
     public VaccinationSchedule scheduleVaccination(VaccinationScheduleRequestDto scheduleRequest){
         Branch branch =
                 branchRepository
@@ -133,6 +149,9 @@ public class VaccinationService {
         return UUID.randomUUID().toString();
     }
 
+    /**
+     *  Sets confirm flag to true
+     */
     public void confirmSchedule(String scheduleCode){
         VaccinationSchedule schedule =
                 vaccinationScheduleRepository
@@ -142,6 +161,9 @@ public class VaccinationService {
         vaccinationScheduleRepository.save(schedule);
     }
 
+    /**
+     *  Sets applied flag to true
+     */
     public void markVaccinationAsApplied(String scheduleCode){
         VaccinationSchedule schedule =
                 vaccinationScheduleRepository
