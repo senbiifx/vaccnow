@@ -1,0 +1,38 @@
+spring:
+  address: 10.105.102.232
+  application:
+    name: vaccnow
+  profiles:
+    active: local
+  datasource:
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433;databaseName=VACCNOW
+    username: sa
+    password: Asdasdasd123
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog.yaml
+    enabled: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: francisvaccnow@gmail.com
+    password: admin@587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true
+logging:
+  level:
+    ROOT: DEBUG
+server:
+  port: 8060
+  use-forward-headers: false
+
+app:
+  emailSubject: Vaccination Appointment Confirmation
+  emailContent: http://localhost:8060/api/vaccination/schedules/%s/confirmations
