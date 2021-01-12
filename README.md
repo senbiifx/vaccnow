@@ -1,5 +1,3 @@
-# vaccnow
-
 # Pre-requites
   - Maven
   - Docker
