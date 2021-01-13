@@ -8,4 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AppProperties {
     private String emailSubject;
     private String emailContent;
+    private String scheduleReportTemplate;
+    private String scheduleReportFont;
 }

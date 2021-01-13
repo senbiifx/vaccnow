@@ -5,10 +5,10 @@ spring:
   profiles:
     active: local
   datasource:
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost:1433;databaseName=VACCNOW
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
     username: sa
-    password: Asdasdasd123
+    password: password
   liquibase:
     change-log: classpath:/db/changelog/db.changelog.yaml
     enabled: true
@@ -26,6 +26,11 @@ spring:
           writetimeout: 5000
           starttls:
             enable: true
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
 logging:
   level:
     ROOT: DEBUG
@@ -36,3 +41,5 @@ server:
 app:
   emailSubject: Vaccination Appointment Confirmation
   emailContent: http://localhost:8060/api/vaccination/schedules/%s/confirmations
+  scheduleReportTemplate: /schedule
+  scheduleReportFont: /reports/Verdana.ttf

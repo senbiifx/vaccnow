@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vaccination Schedule</title>
+</head>
+<body>
+
+    <h2 style="text-align: center; font-family:Verdana;">Vaccination Schedule</h2>
+    <p style="font-size: 1.5em;font-family:Verdana;"><span style="font-size: 14px;font-family:Verdana;">From Date: [[${data.getFromDate()}]]<br /></span><span style="font-size: 14px;font-family:Verdana;">To Date: [[${data.getToDate()}]]</span></p>
+    <table style="border-style: solid; margin-left: auto; margin-right: auto;font-family:Verdana;font-size: 12px;" border="1" cellspacing="0" cellpadding="5">
+        <tbody>
+        <tr>
+            <th>Date</th>
+            <th>From Time</th>
+            <th>To Time</th>
+            <th>Customer Name</th>
+            <th>Branch</th>
+            <th>Vaccine</th>
+            <th>Payment Method</th>
+            <th>Confirmed</th>
+            <th>Applied</th>
+        </tr>
+        <tr th:each="schedule: ${data.schedules}">
+            <td>[[${schedule.getScheduleDate()}]]</td>
+            <td>[[${schedule.getTimeSlot().getFromTime()}]]</td>
+            <td>[[${schedule.getTimeSlot().getToTime()}]]</td>
+            <td>[[${schedule.getCustomer().getCustomerName()}]]</td>
+            <td>[[${schedule.getBranch().getDescription()}]]</td>
+            <td>[[${schedule.getVaccine().getDescription()}]]</td>
+            <td>[[${schedule.getPaymentMethod().getDescription()}]]</td>
+            <td>[[${schedule.isConfirmed()}]]</td>
+            <td>[[${schedule.isApplied()}]]</td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

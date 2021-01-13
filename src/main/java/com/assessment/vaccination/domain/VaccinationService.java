@@ -4,6 +4,8 @@ import com.assessment.common.ErrorCode;
 import com.assessment.common.PreconditionException;
 import com.assessment.config.AppProperties;
 import com.assessment.vaccination.domain.entity.*;
+import com.assessment.vaccination.domain.model.VaccinationScheduleReport;
+import com.assessment.vaccination.domain.model.VaccinationScheduleReportModel;
 import com.assessment.vaccination.domain.repository.*;
 import com.assessment.vaccination.dto.VaccinationScheduleRequestDto;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +33,7 @@ public class VaccinationService {
     private final VaccinationScheduleRepository vaccinationScheduleRepository;
     private final JavaMailSender mailSender;
     private final AppProperties appProperties;
-
+    private final ReportGenerator reportGenerator;
 
     /**
      *  Get list of branches
@@ -71,14 +74,26 @@ public class VaccinationService {
     }
 
     /**
-     *  Search for schedules
+     *  Create Schedule Report
      */
-    public List<VaccinationSchedule> getSchedules(LocalDate fromDate,
-                                                  LocalDate toDate,
-                                                  String branchCode,
-                                                  Boolean applied,
-                                                  Boolean confirmed){
-        return vaccinationScheduleRepository.findSchedule(fromDate, toDate, branchCode, applied, confirmed);
+    public VaccinationScheduleReport getScheduleReport(LocalDate fromDate,
+                                                       LocalDate toDate,
+                                                       String branchCode,
+                                                       Boolean applied,
+                                                       Boolean confirmed){
+        List<VaccinationSchedule> schedules =
+                vaccinationScheduleRepository.findSchedule(fromDate, toDate, branchCode, applied, confirmed);
+
+        VaccinationScheduleReportModel model =
+                VaccinationScheduleReportModel
+                        .builder()
+                        .fromDate(Optional.ofNullable(fromDate).map(LocalDate::toString).orElse(""))
+                        .toDate(Optional.ofNullable(toDate).map(LocalDate::toString).orElse(""))
+                        .schedules(schedules)
+                        .build();
+
+        byte[] reportInBytes = reportGenerator.createPdf(appProperties.getScheduleReportTemplate(), model);
+        return new VaccinationScheduleReport(Base64.getEncoder().encodeToString(reportInBytes));
     }
 
     /**
