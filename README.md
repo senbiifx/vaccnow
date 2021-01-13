@@ -21,3 +21,5 @@ Run the application:
 $ mvn spring-boot:run
 ```
 
+# Relationship Diagram
+![Alt text](erd.png?raw=true "ERD")
