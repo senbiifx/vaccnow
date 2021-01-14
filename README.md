@@ -1,6 +1,6 @@
 # Pre-requisites
   - Maven
-  - Docker
+  - JDK 8
 
 
 
